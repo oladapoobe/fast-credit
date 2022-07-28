@@ -1,0 +1,78 @@
+<form [formGroup]="userForm">
+
+  <mat-form-field appearance="outline" class="d-block mb-2">
+    <mat-label>first Name</mat-label>
+    <input formControlName="firstName" matInput placeholder="first Name" />
+    <mat-error *ngIf="fieldHasError('firstName')">
+      {{ getErrorMessage("firstName") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="d-block mb-2">
+    <mat-label>last Name</mat-label>
+    <input formControlName="lastName" matInput placeholder="last Name" />
+    <mat-error *ngIf="fieldHasError('lastName')">
+      {{ getErrorMessage("lastName") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="d-block mb-2">
+    <mat-label>email Address</mat-label>
+    <input formControlName="emailAddress" matInput placeholder="email Address" />
+    <mat-error *ngIf="fieldHasError('email')">
+      {{ getErrorMessage("emailAddress") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="d-block mb-2">
+    <mat-label>gender</mat-label>
+    <input formControlName="gender" matInput placeholder="gender" />
+    <mat-error *ngIf="fieldHasError('gender')">
+      {{ getErrorMessage("gender") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="d-block mb-2">
+    <mat-label>date Of Birth</mat-label>
+    <input matInput [matDatepicker]="picker4" formControlName="dateOfBirth">
+    <mat-datepicker-toggle matSuffix [for]="picker4" >
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker4></mat-datepicker>
+
+    <mat-error *ngIf="fieldHasError('dateOfBirth')">
+      {{ getErrorMessage("dateOfBirth") }}
+    </mat-error>
+  </mat-form-field>
+
+  <ng-container>
+    <mat-form-field appearance="outline" class="d-block mb-2">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option *ngFor="let userRole of userRoles" [value]="userRole.val">
+          {{ userRole.viewVal }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="fieldHasError('role')">
+        {{ getErrorMessage("role") }}
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
+
+  <mat-form-field appearance="outline" class="d-block mb-2">
+    <mat-label>phoneNumber</mat-label>
+    <input formControlName="phoneNumber" matInput placeholder="phoneNumber" />
+    <mat-error *ngIf="fieldHasError('phoneNumber')">
+      {{ getErrorMessage("phoneNumber") }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="d-block mb-2">
+    <mat-label>nationality</mat-label>
+    <input formControlName="nationality" matInput placeholder="nationality" />
+    <mat-error *ngIf="fieldHasError('nationality')">
+      {{ getErrorMessage("nationality") }}
+    </mat-error>
+  </mat-form-field>
+
+</form>
+
