@@ -37,24 +37,32 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             var jwtTokenConfig = Configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
-           
-            services.AddControllers();
 
-           
-            services.AddSingleton(jwtTokenConfig);
-            
+            services.AddControllers();
+            services.AddCors(options =>
+                    options.AddPolicy("AllowAll",
+                    builder => { builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithExposedHeaders("X-InlineCount"); })
+
+
+
+            );
+        
+
+
+        services.AddSingleton(jwtTokenConfig);
+
             services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
             services.AddHostedService<JwtRefreshTokenCache>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IDbConnection>(db => new SqlConnection(jwtTokenConfig.dapperconnection));
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUserService, UserService>();
-          
+
             services.AddTransient(typeof(IQueryGenericRepository<>), typeof(QueryGenericRepository<>));
-           
+
             services.AddTransient(typeof(IIDentityInspector<>), typeof(IDentityInspector<>));
             services.AddTransient(typeof(IPartsQryGenerator<>), typeof(PartsQryGenerator<>));
-            
+
 
 
 
@@ -62,8 +70,8 @@ namespace API
             {
                 options.AllowSynchronousIO = true;
             });
-           
-            
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -89,12 +97,6 @@ namespace API
                 });
             });
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll",
-                    builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();});
-                
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

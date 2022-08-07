@@ -19,13 +19,9 @@ export class UserListService {
   // LIST USERS
   async getAllUsers(): Promise<PROFILE[]> {
 
-    
-    const currentUser: PROFILE | null =
-      this.globalDataService.currentUser$.getValue();
-
     const httpData: HTTP_REQ = {
-      url: 'profiles',
-      params: { role_lte: this.getRoleLTE(currentUser?.role) },
+      url: '/api/User/GetAll',
+    
     };
     const { success, error, data } = await this.apiService.get(httpData);
     if (success && data?.length > 0) {
@@ -42,7 +38,7 @@ export class UserListService {
   
       // IF USER REGISTERED SUCCESSFULLY THEN CREATE PROFILE DATA
       const profileHttpData: HTTP_REQ = {
-        url: 'profiles',
+        url: '/api/User/PostUser',
         body: {
 
           emailAddress: formData.emailAddress,
@@ -69,7 +65,7 @@ export class UserListService {
 
   async updateUser(user: PROFILE): Promise<{ success: boolean; user: PROFILE }> {
     const httpData: HTTP_REQ = {
-      url: `profiles/${user.id}`,
+      url: `/api/User/UpdateUser`,
       body: user,
     };
     const { success, error, data } = await this.apiService.put(httpData);
@@ -84,7 +80,7 @@ export class UserListService {
   }
   async deleteUser(userID: number): Promise<{ success: boolean; user: PROFILE }> {
     const httpData: HTTP_REQ = {
-      url: `profiles/${userID}`,
+      url: `/api/User/DeleteUser/${userID}`,
     };
     const { success, error, data } = await this.apiService.delete(httpData);
     if (success) {
@@ -111,3 +107,5 @@ export class UserListService {
     }
   }
 }
+
+

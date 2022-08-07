@@ -12,11 +12,14 @@ namespace API.ClassModel
         public ClsReturnMessage(dynamic dyn)
         {
             id = dyn.id;
-            isSuccess = dyn.isSuccess;
-            message = dyn.message;
+            success = dyn.success;
+            data = dyn.data;
+            message = dyn.message;  
         }
         public string id { get; set; }
-        public bool isSuccess { get; set; }
+        public bool success { get; set; }
+        public dynamic data { get; set; }
         public string message { get; set; }
+        
     }
 }

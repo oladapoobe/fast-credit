@@ -25,6 +25,7 @@ export class UserListComponent implements OnInit {
     this.userList = await this.userListService.getAllUsers();
     console.log(this.userList);
   }
+
   async createNewUser() {
     try {
       const { success, userData } = await this.openUserModal();

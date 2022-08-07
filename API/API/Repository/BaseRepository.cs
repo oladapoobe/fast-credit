@@ -97,7 +97,7 @@ namespace API.Repository
                 connection.Open();
                 connection.Execute(query, entity);
                 connection.Close();
-                return await Task.FromResult(new ClsReturnMessage { isSuccess = true, message = "Created succesfully" });
+                return await Task.FromResult(new ClsReturnMessage { success = true, data = entity });
 
             }
 
@@ -131,7 +131,7 @@ namespace API.Repository
                 connection.Open();
                 connection.Execute(query, entity);
                 connection.Close();
-                return await Task.FromResult(new ClsReturnMessage { isSuccess = true, message = "Updated succesfully" });
+                return await Task.FromResult(new ClsReturnMessage { success = true, data = entity });
 
             }
 
@@ -151,7 +151,7 @@ namespace API.Repository
                 connection.Open();
                 connection.Execute(query, entity);
                 connection.Close();
-                return await Task.FromResult(new ClsReturnMessage { isSuccess = true, message = "Deleted succesfully" });
+                return await Task.FromResult(new ClsReturnMessage { success = true, data = entity });
 
             }
 

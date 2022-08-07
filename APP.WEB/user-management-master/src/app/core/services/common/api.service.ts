@@ -6,30 +6,51 @@ import { shareReplay } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 // HTTP MODELS
 import { HTTP_REQ, HTTP_RES } from '@models/common';
+
+
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   // API URL
   private readonly apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
-  // GET REQUEST
-  public async get(httpData: HTTP_REQ):Promise<HTTP_RES> {
-    try {
-      const _jsonURL = 'assets/db.json';
-      const httpOptions = this.generateHttpOptions(
-        httpData.params,
-        httpData.headers
-      );
-      //const result: any = await this.http
-      //  .get(`${this.apiUrl}/${httpData.url}`, httpOptions)
-      //  .pipe(shareReplay())
-      //  .toPromise();
+  constructor(private http: HttpClient) { }
 
-      const result: any = await this.http.get(_jsonURL).pipe(shareReplay()).toPromise();
-      return { success: true, data: result.profiles, error: null };
+
+
+
+
+  // GET REQUEST
+  public async get(httpData: HTTP_REQ): Promise<HTTP_RES> {
+    try {
+
+
+      //const headers = new HttpHeaders({
+      //  'Content-Type': 'application/json',
+      //  'Accept': 'application/json',
+      //  'platform': 'pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp'
+      //});
+
+      let headers = new HttpHeaders().set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .set('Access-Control-Allow-Origin', 'http://localhost:4200')
+        .set('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Token, Authorization, Origin, X-SAP-LogonToken')
+        .set('Access-Control-Allow-Methods', 'POST, PUT, GET, DELTE')
+        .set('Accept-Language', 'en-US')
+        .set('X-SAP-PVL', 'en-US')
+        .set('X-SAP-LogonToken', 'pgH7QzFHJx4w46fI~5Uzi4RvtTwlEXp')
+
+
+      const requestOptions = { headers: headers };
+      // console.log(httpOptions);
+      const result: any = await this.http
+        .get(`${this.apiUrl}/${httpData.url}`, { headers })
+        .toPromise();
+
+      // const result: any = await this.http.get(_jsonURL).pipe(shareReplay()).toPromise();
+      return { success: true, data: result, error: null };
     } catch (error: any) {
-     
+
 
 
       return { success: false, data: null, error };
@@ -38,32 +59,27 @@ export class ApiService {
   // POST REQUEST
   public async post(httpData: HTTP_REQ) {
     try {
-      const httpOptions = this.generateHttpOptions(
-        httpData.params,
-        httpData.headers
-      );
+
+
       const result: any = await this.http
-        .post(`${this.apiUrl}/${httpData.url}`, httpData.body, httpOptions)
+        .post(`${this.apiUrl}/${httpData.url}`, httpData.body)
         .pipe(shareReplay())
         .toPromise();
       return { success: true, data: result, error: null };
-    } catch (error:any) {
+    } catch (error: any) {
       return { success: false, data: null, error };
     }
   }
   // PUT REQUEST
   public async put(httpData: HTTP_REQ) {
     try {
-      const httpOptions = this.generateHttpOptions(
-        httpData.params,
-        httpData.headers
-      );
+
       const result: any = await this.http
-        .put(`${this.apiUrl}/${httpData.url}`, httpData.body, httpOptions)
+        .put(`${this.apiUrl}/${httpData.url}`, httpData.body)
         .pipe(shareReplay())
         .toPromise();
       return { success: true, data: result, error: null };
-    } catch (error:any) {
+    } catch (error: any) {
       return { success: false, data: null, error };
     }
   }
@@ -75,7 +91,7 @@ export class ApiService {
         .pipe(shareReplay())
         .toPromise();
       return { success: true, data: result, error: null };
-    } catch (error:any) {
+    } catch (error: any) {
       return { success: false, data: null, error };
     }
   }
@@ -105,3 +121,8 @@ export class ApiService {
     return httpOptions;
   }
 }
+
+
+
+
+

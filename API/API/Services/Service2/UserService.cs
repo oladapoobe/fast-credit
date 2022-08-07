@@ -57,7 +57,7 @@ namespace API.Services.Service2
             }
      
 
-            return await Task.FromResult(new ClsReturnMessage { isSuccess = false, message = "failed" });
+            return await Task.FromResult(new ClsReturnMessage { success = false, data = null });
 
         }
 

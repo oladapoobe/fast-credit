@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
@@ -27,8 +28,11 @@ namespace Customer.WebApi.Middlewares
         {
             try
             {
-                if (!context.Request.Headers.TryGetValue(APIKEY, out
-                var extractedApiKey))
+               
+                string extractedApiKey = context.Request.Headers["X-SAP-LogonToken"];
+
+                
+                if (String.IsNullOrEmpty(extractedApiKey) == true)
                 {
                     context.Response.StatusCode = 401;
                     await context.Response.WriteAsync("Api Key was not provided ");
@@ -55,7 +59,7 @@ namespace Customer.WebApi.Middlewares
 
         public async Task HandleExceptionAsync(HttpContext context, Exception e)
         {
-            var result = new ClsReturnMessage() { isSuccess = false,  message = e.Message , id="" };
+            var result = new ClsReturnMessage() { success = false,  message = e.Message , id="" };
             int statusCode;
 
             if (e is ArgumentException || e is ArgumentNullException)
