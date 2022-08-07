@@ -39,14 +39,7 @@ namespace API
             var jwtTokenConfig = Configuration.GetSection("jwtTokenConfig").Get<JwtTokenConfig>();
 
             services.AddControllers();
-            services.AddCors(options =>
-                    options.AddPolicy("AllowAll",
-                    builder => { builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithExposedHeaders("X-InlineCount"); })
-
-
-
-            );
-        
+      
 
 
         services.AddSingleton(jwtTokenConfig);
@@ -95,6 +88,13 @@ namespace API
                 {
                     {securityScheme, new string[] { }}
                 });
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+
             });
 
         }
